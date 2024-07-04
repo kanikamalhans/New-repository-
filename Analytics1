@@ -1,0 +1,82 @@
+To achieve the described layout for your React application's "Analytics" page, you can use CSS Flexbox or Grid. Here’s how you can do it using Flexbox:
+
+1. **Structure the HTML in JSX:**
+   - Create a parent container for the entire layout.
+   - Inside this container, have two main child components:
+     - The larger component that takes up 60% of the width.
+     - A right-side container that holds the two smaller components stacked vertically, each taking up 50% of the remaining space.
+
+2. **Apply Flexbox CSS to arrange these components.**
+
+Here's an example of how you can achieve this:
+
+### JSX Structure
+```jsx
+import React from 'react';
+import './Analytics.css';
+
+const Analytics = () => {
+  return (
+    <div className="analytics-container">
+      <div className="main-component">
+        {/* Your main component goes here */}
+        <h1>Main Component</h1>
+      </div>
+      <div className="right-side">
+        <div className="small-component">
+          {/* First small component */}
+          <h2>Small Component 1</h2>
+        </div>
+        <div className="small-component">
+          {/* Second small component */}
+          <h2>Small Component 2</h2>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;
+```
+
+### CSS (Analytics.css)
+```css
+.analytics-container {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full height of the viewport */
+}
+
+.main-component {
+  flex: 0 0 60%; /* Takes up 60% of the width */
+  background-color: #f0f0f0; /* Light grey background for illustration */
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in the width/height */
+}
+
+.right-side {
+  flex: 0 0 40%; /* Takes up the remaining 40% of the width */
+  display: flex;
+  flex-direction: column; /* Stack the children vertically */
+}
+
+.small-component {
+  flex: 1; /* Each small component takes up equal space */
+  background-color: #d0d0d0; /* Slightly darker grey for contrast */
+  padding: 20px;
+  box-sizing: border-box; /* Include padding in the width/height */
+  border-top: 1px solid #ccc; /* Optional border for separation */
+}
+
+.small-component:first-child {
+  border-top: none; /* Remove border for the first component */
+}
+```
+
+### Explanation:
+- **Container (`analytics-container`)**: Uses Flexbox to layout its children.
+- **Main Component (`main-component`)**: Takes up 60% of the container’s width.
+- **Right Side Container (`right-side`)**: Takes up the remaining 40%, with its children stacked vertically.
+- **Small Components (`small-component`)**: Each takes up equal space within the `right-side` container.
+
+You can adjust padding, margins, and other styles as needed. This approach provides a flexible and responsive layout.
