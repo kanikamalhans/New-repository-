@@ -1,0 +1,130 @@
+To add text to the small components (1 and 2) while keeping the charts and ensuring everything fits nicely within their respective boxes, we can update the JSX structure and apply some styling adjustments.
+
+### Updated JSX in `Analytics.jsx`
+
+We'll add headings above the charts for both small components.
+
+```jsx
+import React from 'react';
+import './Analytics.css';
+import AdvisorTypesChart from './components/charts/AdvisorTypesChart'; // Doughnut chart component
+import AdvisorProductsChart from './components/charts/AdvisorProductsChart'; // Bar chart component
+
+const Analytics = () => {
+  return (
+    <div className="analytics-container">
+      <div className="main-component">
+        <h1>Main Component Heading</h1>
+        <div className="main-component-content">
+          {/* Your main content goes here */}
+          <p>Main content here.</p>
+        </div>
+      </div>
+      <div className="right-side">
+        <div className="small-component">
+          <h2>Advisor Types</h2> {/* Text heading for small component 1 */}
+          <div className="chart-container">
+            <AdvisorTypesChart /> {/* Doughnut chart */}
+          </div>
+        </div>
+        <div className="small-component">
+          <h2>Advisor Products</h2> {/* Text heading for small component 2 */}
+          <div className="chart-container">
+            <AdvisorProductsChart /> {/* Bar chart */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;
+```
+
+### CSS Adjustments (Analytics.css)
+
+To ensure the text and charts fit nicely, we'll make sure there's appropriate spacing and alignment.
+
+```css
+.analytics-container {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent overflow and scrolling */
+}
+
+.main-component {
+  flex: 0 0 60%; /* Takes up 60% of the width */
+  background-color: #f0f0f0; /* Light grey background for illustration */
+  padding: 10px; /* Reduced padding */
+  box-sizing: border-box; /* Include padding in the width/height */
+  display: flex;
+  flex-direction: column; /* Stack the heading and content vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: center; /* Center vertically */
+}
+
+.right-side {
+  flex: 0 0 40%; /* Takes up the remaining 40% of the width */
+  display: flex;
+  flex-direction: column; /* Stack the children vertically */
+}
+
+.small-component {
+  flex: 1; /* Each small component takes up equal space */
+  background-color: #d0d0d0; /* Slightly darker grey for contrast */
+  padding: 10px; /* Reduced padding */
+  box-sizing: border-box; /* Include padding in the width/height */
+  display: flex;
+  flex-direction: column; /* Stack the heading and chart vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: flex-start; /* Align items at the top */
+  border-top: 1px solid #ccc; /* Optional border for separation */
+  overflow: hidden; /* Ensure content does not overflow */
+}
+
+.small-component:first-child {
+  border-top: none; /* Remove border for the first component */
+}
+
+.small-component h2 {
+  margin: 0 0 10px; /* Space below the heading */
+  text-align: center; /* Center the heading text */
+  font-size: 1.2em; /* Adjust font size as needed */
+}
+
+.chart-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.small-component canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+h1, h2 {
+  margin: 0; /* Remove default margin from headings */
+  font-size: 1.5em; /* Adjust font size as needed */
+}
+```
+
+### Explanation:
+
+1. **Text Heading for Small Components**:
+   - Added `<h2>` tags with titles for each small component above the charts.
+   - The text is centered and spaced from the chart below with a margin.
+
+2. **`chart-container` Class**:
+   - A new `.chart-container` class is used to ensure the charts take up the available space within the small components.
+   - Flex properties center the charts both horizontally and vertically.
+
+3. **Styling Adjustments**:
+   - Added styling to align the text and content within the small components properly.
+   - Adjusted `h2` headings for better spacing and visibility.
+   - Flex properties in `.small-component` ensure the heading and chart are stacked vertically, with the heading at the top.
+
+This setup keeps the text and charts well-organized within their respective boxes, ensuring they fit perfectly without causing overflow or requiring scrolling.
