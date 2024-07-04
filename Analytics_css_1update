@@ -1,0 +1,42 @@
+.analytics-container {
+  display: flex;
+  width: 100%;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent overflow and scrolling */
+}
+
+.main-component {
+  flex: 0 0 60%; /* Takes up 60% of the width */
+  background-color: #f0f0f0; /* Light grey background for illustration */
+  padding: 10px; /* Reduced padding */
+  box-sizing: border-box; /* Include padding in the width/height */
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+}
+
+.right-side {
+  flex: 0 0 40%; /* Takes up the remaining 40% of the width */
+  display: flex;
+  flex-direction: column; /* Stack the children vertically */
+}
+
+.small-component {
+  flex: 1; /* Each small component takes up equal space */
+  background-color: #d0d0d0; /* Slightly darker grey for contrast */
+  padding: 10px; /* Reduced padding */
+  box-sizing: border-box; /* Include padding in the width/height */
+  display: flex;
+  align-items: center; /* Center vertically */
+  justify-content: center; /* Center horizontally */
+  border-top: 1px solid #ccc; /* Optional border for separation */
+}
+
+.small-component:first-child {
+  border-top: none; /* Remove border for the first component */
+}
+
+h1, h2 {
+  margin: 0; /* Remove default margin from headings */
+  font-size: 1.5em; /* Adjust font size as needed */
+}
