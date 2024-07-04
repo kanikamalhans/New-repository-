@@ -1,0 +1,201 @@
+To address the issues of the compressed bar chart and repositioning the year filter in your `AdvisorProductsChart`, you can make the following adjustments:
+
+1. **Reposition the Year Filter**: Move the year filter to be beside the legend. This involves customizing the layout of the chart options.
+2. **Avoiding Chart Compression**: Adjust the height and padding of the chart container and ensure the chart maintains a good aspect ratio.
+
+### Updated Bar Chart Component
+
+### File: `src/components/charts/AdvisorProductsChart.jsx`
+
+```jsx
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from 'chart.js';
+
+ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
+
+const AdvisorProductsChart = () => {
+  const [selectedYear, setSelectedYear] = useState('2023'); // Initial selected year
+
+  // Data for demonstration
+  const data = {
+    labels: ['Subproduct 1', 'Subproduct 2', 'Subproduct 3'],
+    datasets: [
+      {
+        label: 'Number of Advisors',
+        data: [20, 30, 15], // Example data, replace with your own
+        backgroundColor: [
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+          'rgba(255, 159, 64, 0.6)',
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    indexAxis: 'y', // Flip axes for a horizontal bar chart
+    plugins: {
+      legend: {
+        position: 'top', // Place legend at the top
+        align: 'start', // Align legend to the start of the chart
+        labels: {
+          boxWidth: 10, // Smaller legend box size
+          padding: 10, // Padding between legend items
+        }
+      },
+      tooltip: {
+        callbacks: {
+          title: () => '', // Remove title from tooltip
+          label: (tooltipItem) => {
+            const dataset = data.datasets[tooltipItem.datasetIndex];
+            const value = dataset.data[tooltipItem.index];
+            return `${dataset.label}: ${value}`;
+          },
+        },
+      },
+    },
+    maintainAspectRatio: false, // Allow chart to fill its container
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: {
+          stepSize: 10,
+          callback: function(value) {
+            return `${value} advisors`;
+          }
+        }
+      },
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function(value) {
+            return value;
+          }
+        }
+      }
+    }
+  };
+
+  return (
+    <div style={{ position: 'relative', width: '100%', height: '100%', padding: '20px' }}>
+      <h2>Advisor Products</h2>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: '10px' }}>
+        <label>Select Year:</label>
+        <select value={selectedYear} onChange={(e) => setSelectedYear(e.target.value)}>
+          <option value="2023">2023</option>
+          <option value="2024">2024</option>
+          <option value="2025">2025</option>
+        </select>
+      </div>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default AdvisorProductsChart;
+```
+
+### Explanation:
+
+1. **Flex Container for Year Filter**: 
+   - Added a `div` with `display: flex` to hold the label and the select dropdown for the year filter.
+   - Positioned this container to the right of the legend using `justify-content: flex-end`.
+
+2. **Chart Layout**:
+   - Set `maintainAspectRatio: false` in the chart options to allow the chart to fill the container properly.
+   - Added padding to the parent container of the chart to prevent it from looking compressed.
+
+3. **Legend Alignment**:
+   - The legend is positioned at the top and aligned to the start (`align: 'start'`), making space for the year filter next to it.
+
+### CSS Adjustments (Analytics.css)
+
+Since the charts are now handled with specific padding and positioning within their own components, ensure that the `small-component` class is still flexible but without any unnecessary overflow issues.
+
+```css
+.small-component {
+  flex: 1; /* Each small component takes up equal space */
+  background-color: #d0d0d0; /* Slightly darker grey for contrast */
+  padding: 10px; /* Reduced padding */
+  box-sizing: border-box; /* Include padding in the width/height */
+  display: flex;
+  flex-direction: column; /* Stack the heading and chart vertically */
+  align-items: center; /* Center horizontally */
+  justify-content: flex-start; /* Align items at the top */
+  overflow: hidden; /* Ensure content does not overflow */
+}
+
+.small-component h2 {
+  margin: 0 0 10px; /* Space below the heading */
+  text-align: center; /* Center the heading text */
+  font-size: 1.2em; /* Adjust font size as needed */
+}
+
+.chart-container {
+  width: 100%;
+  height: calc(100% - 40px); /* Adjust height to include space for heading */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.small-component canvas {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+h1, h2 {
+  margin: 0; /* Remove default margin from headings */
+  font-size: 1.5em; /* Adjust font size as needed */
+}
+```
+
+### Final Integration
+
+Make sure your `Analytics.jsx` uses these updated components and styles to integrate the text above the charts properly.
+
+```jsx
+import React from 'react';
+import './Analytics.css';
+import AdvisorTypesChart from './components/charts/AdvisorTypesChart'; // Doughnut chart component
+import AdvisorProductsChart from './components/charts/AdvisorProductsChart'; // Bar chart component
+
+const Analytics = () => {
+  return (
+    <div className="analytics-container">
+      <div className="main-component">
+        <h1>Main Component Heading</h1>
+        <div className="main-component-content">
+          {/* Your main content goes here */}
+          <p>Main content here.</p>
+        </div>
+      </div>
+      <div className="right-side">
+        <div className="small-component">
+          <h2>Advisor Types</h2> {/* Text heading for small component 1 */}
+          <div className="chart-container">
+            <AdvisorTypesChart /> {/* Doughnut chart */}
+          </div>
+        </div>
+        <div className="small-component">
+          <h2>Advisor Products</h2> {/* Text heading for small component 2 */}
+          <div className="chart-container">
+            <AdvisorProductsChart /> {/* Bar chart */}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;
+```
+
+This updated setup should position the text above the components and ensure the charts are not compressed, with the year filter placed beside the legend.
