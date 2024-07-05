@@ -1,0 +1,165 @@
+To address the excess space and add a dropdown beside the search bar, we can:
+
+1. **Maximize the use of the available width**: Center the content and ensure it scales appropriately with the screen size.
+2. **Add a Dropdown beside the Search Box**: Position the dropdown next to the search bar using flexbox.
+
+We'll make the following updates:
+
+- Adjust the CSS to remove the excess space and ensure the layout fits well within the viewport.
+- Add a dropdown component beside the search bar in the top section.
+
+### Updated Code
+
+#### 1. **Update the `Dashboard.js`**:
+
+Add a placeholder for the dropdown component and ensure the top section uses flexbox for alignment.
+
+```jsx
+// src/Dashboard.js
+
+import React from 'react';
+import SearchBox from './SearchBox'; // Assuming you have this component
+import './Dashboard.css'; // Add the CSS
+
+const Dashboard = () => {
+  return (
+    <div className="dashboard-container">
+      {/* Top Section */}
+      <div className="top-section">
+        <SearchBox />
+        <select className="dropdown">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+        <button className="panel-button">Open Panel</button>
+      </div>
+      
+      {/* Main Layout */}
+      <div className="main-layout">
+        <div className="big-box">
+          {/* Put your large component here */}
+          <h2>Big Component</h2>
+        </div>
+        <div className="right-section">
+          <div className="advisor-details">
+            {/* Advisor details here */}
+            <h3>Advisor Details</h3>
+          </div>
+          <div className="bottom-boxes">
+            <div className="bottom-box">Bottom Component 1</div>
+            <div className="bottom-box">Bottom Component 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+#### 2. **Update the CSS (`Dashboard.css`)**:
+
+Modify the CSS to handle the layout adjustments, centering the content, and removing the empty space.
+
+```css
+/* src/Dashboard.css */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.top-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px; /* Adjust this to your preferred width */
+  margin-bottom: 20px;
+}
+
+.top-section > * {
+  margin-right: 20px; /* Space between elements */
+}
+
+.panel-button {
+  margin-left: auto; /* Move the button to the far right */
+}
+
+.main-layout {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  flex: 1;
+}
+
+.big-box {
+  flex: 0 0 60%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  height: 100%;
+}
+
+.right-section {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.advisor-details {
+  flex: 0 0 auto;
+  background-color: #e0e0e0;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.bottom-boxes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bottom-box {
+  background-color: #d0d0d0;
+  padding: 10px;
+  flex: 1;
+  margin-bottom: 20px;
+  height: calc(50% - 10px); /* Adjust height to split space equally */
+}
+
+.bottom-box:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown {
+  margin-left: 10px;
+  padding: 5px;
+}
+```
+
+### Key Changes
+
+1. **Removed Excess Space**:
+   - The `.top-section` and `.main-layout` are centered and utilize the available width efficiently.
+   - `margin-left: auto;` on `.panel-button` ensures it's aligned to the right, with the search box and dropdown to its left.
+
+2. **Added Dropdown**:
+   - A `select` element for the dropdown is added right beside the `SearchBox` in the top section.
+
+### Final Steps
+
+- **Adjust the component sizes**: Ensure all components fit within the available space and are responsive.
+- **Test in different screen sizes**: Verify the layout doesn't overflow or require scrolling on different devices.
+
+This setup should address the empty space and add the dropdown as specified.
