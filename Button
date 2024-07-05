@@ -1,0 +1,233 @@
+To accomplish the tasks:
+
+1. **Add the "Add Advisor" button beside the dropdown**.
+2. **Integrate a Chart.js stacked column chart with a year filter**.
+
+Here's the step-by-step approach:
+
+### Step 1: Update the Dashboard with the Popup Button Beside the Dropdown
+
+We'll modify the `Dashboard.js` file to add the "Add Advisor" button right beside the dropdown.
+
+#### Updated `Dashboard.js`
+
+```jsx
+// src/Dashboard.js
+
+import React, { useState } from 'react';
+import SearchBox from './SearchBox'; // Assuming you have this component
+import AdvisorPopup from './AdvisorPopup'; // Import the popup component
+import StackedColumnChart from './StackedColumnChart'; // Import the chart component
+import './Dashboard.css'; // Add the CSS
+
+const Dashboard = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [advisorDetails, setAdvisorDetails] = useState("Here are the details of the advisor."); // Replace with real data
+
+  const handleOpenPopup = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  return (
+    <div className="dashboard-container">
+      {/* Top Section */}
+      <div className="top-section">
+        <SearchBox />
+        <select className="dropdown">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+        <button className="add-advisor-button" onClick={handleOpenPopup}>Add Advisor</button>
+        <button className="panel-button">Open Panel</button>
+      </div>
+      
+      {/* Main Layout */}
+      <div className="main-layout">
+        <div className="big-box">
+          {/* Insert your Chart component here */}
+          <StackedColumnChart />
+        </div>
+        <div className="grid-container">
+          <div className="small-box">Small Component 1</div>
+          <div className="small-box">Small Component 2</div>
+          <div className="small-box">Small Component 3</div>
+          <div className="small-box">Small Component 4</div>
+        </div>
+      </div>
+
+      {/* Popup for Adding Advisor */}
+      <AdvisorPopup isOpen={isPopupOpen} onClose={handleClosePopup} advisorDetails={advisorDetails} />
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+#### Updated CSS (`Dashboard.css`)
+
+Add styling for the button to position it beside the dropdown.
+
+```css
+/* src/Dashboard.css */
+
+/* Add this at the end of the file or modify existing .top-section styles */
+
+.top-section {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start */
+  align-items: center;
+  width: 100%;
+  padding: 10px 20px; /* Adjust padding as needed */
+  box-sizing: border-box;
+  background-color: #fafafa; /* Optional: background color for visibility */
+}
+
+.top-section > * {
+  margin-right: 10px; /* Space between elements */
+}
+
+.dropdown {
+  margin-left: 10px;
+  padding: 5px;
+}
+
+.add-advisor-button {
+  margin-left: 10px; /* Space between dropdown and button */
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.add-advisor-button:hover {
+  background-color: #0056b3;
+}
+
+.panel-button {
+  margin-left: auto; /* Move the button to the far right */
+}
+```
+
+### Step 2: Create a Stacked Column Chart with Chart.js
+
+We'll create a new component for the stacked column chart and include a year filter.
+
+#### Install Required Dependencies
+
+Ensure you have `chart.js` and `react-chartjs-2` installed:
+
+```bash
+npm install chart.js react-chartjs-2
+```
+
+#### Create the Chart Component (`StackedColumnChart.js`)
+
+Create a new file for the chart component.
+
+```jsx
+// src/StackedColumnChart.js
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
+
+const StackedColumnChart = () => {
+  // Sample data for the chart
+  const data = {
+    2022: {
+      labels: ['January', 'February', 'March', 'April'],
+      datasets: [
+        {
+          label: 'Category A',
+          data: [30, 20, 50, 40],
+          backgroundColor: '#ff6384'
+        },
+        {
+          label: 'Category B',
+          data: [20, 30, 10, 50],
+          backgroundColor: '#36a2eb'
+        }
+      ]
+    },
+    2023: {
+      labels: ['January', 'February', 'March', 'April'],
+      datasets: [
+        {
+          label: 'Category A',
+          data: [40, 30, 20, 60],
+          backgroundColor: '#ff6384'
+        },
+        {
+          label: 'Category B',
+          data: [10, 50, 30, 20],
+          backgroundColor: '#36a2eb'
+        }
+      ]
+    }
+  };
+
+  const [year, setYear] = useState('2022');
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+        <label>Select Year: </label>
+        <select value={year} onChange={handleYearChange}>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+      <Bar
+        data={data[year]}
+        options={{
+          responsive: true,
+          plugins: {
+            legend: {
+              position: 'top'
+            },
+            title: {
+              display: true,
+              text: `Stacked Bar Chart - ${year}`
+            }
+          },
+          scales: {
+            x: {
+              stacked: true
+            },
+            y: {
+              stacked: true
+            }
+          }
+        }}
+      />
+    </div>
+  );
+};
+
+export default StackedColumnChart;
+```
+
+### Step 3: Integrate the Chart Component in the Dashboard
+
+We have already added the `<StackedColumnChart />` component in the `big-box` in the `Dashboard.js` file. Ensure it's correctly imported and displayed.
+
+### Summary
+
+With these changes:
+
+- The "Add Advisor" button is placed beside the dropdown in the top section.
+- The `StackedColumnChart` component displays a Chart.js stacked column chart with a year filter.
+
+You can now see the stacked column chart in the dashboard and manage the visibility of the advisor details popup.
