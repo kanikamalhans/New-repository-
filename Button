@@ -1,3 +1,120 @@
+To integrate the year filter back into the `StackedColumnChart` component while displaying data for 50 US states on the y-axis, we will modify the component to include the year filter and populate the chart accordingly. Each year will show stacked bars for the 50 states across different categories.
+
+Here’s how you can update the `StackedColumnChart` component to include the year filter and display data for multiple years:
+
+### Updated `StackedColumnChart.js`
+
+```jsx
+// src/StackedColumnChart.js
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
+
+const StackedColumnChart = () => {
+  // Sample data for the chart
+  const data = {
+    2022: {
+      labels: ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'],
+      datasets: [
+        {
+          label: 'Category A',
+          backgroundColor: '#ff6384',
+          data: [
+            30, 20, 50, 40, 60, 70, 45, 35, 55, 65, 25, 45, 70, 60, 50, 40, 30, 20, 55, 65, 75, 80, 70, 60, 50, 40, 30, 20, 45, 55, 65, 70, 60, 50, 40, 30, 20, 55, 65, 75, 80, 70, 60, 50, 40, 30, 25, 45, 35
+          ]
+        },
+        {
+          label: 'Category B',
+          backgroundColor: '#36a2eb',
+          data: [
+            20, 30, 10, 50, 40, 30, 65, 55, 45, 35, 75, 55, 30, 40, 50, 60, 70, 80, 45, 35, 25, 20, 30, 40, 50, 60, 70, 80, 55, 45, 35, 30, 40, 50, 60, 70, 80, 45, 55, 65, 75, 85, 30, 40, 50, 60, 70, 55, 45
+          ]
+        }
+      ]
+    },
+    2023: {
+      labels: ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'],
+      datasets: [
+        {
+          label: 'Category A',
+          backgroundColor: '#ff6384',
+          data: [
+            40, 35, 55, 45, 65, 75, 50, 40, 60, 70, 30, 50, 75, 65, 55, 45, 35, 25, 60, 70, 80, 85, 75, 65, 55, 45, 35, 25, 50, 60, 70, 75, 65, 55, 45, 35, 25, 60, 70, 80, 85, 75, 65, 55, 45, 35, 30, 50, 40
+          ]
+        },
+        {
+          label: 'Category B',
+          backgroundColor: '#36a2eb',
+          data: [
+            30, 40, 20, 60, 50, 40, 75, 65, 55, 45, 85, 65, 40, 50, 60, 70, 80, 90, 55, 45, 35, 30, 40, 50, 60, 70, 80, 90, 65, 55, 45, 40, 50, 60, 70, 80, 90, 55, 65, 75, 85, 95, 40, 50, 60, 70, 80, 65, 55
+          ]
+        }
+      ]
+    }
+  };
+
+  const [year, setYear] = useState('2022');
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+        <label>Select Year: </label>
+        <select value={year} onChange={handleYearChange}>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+      <Bar
+        data={{
+          labels: data[year].labels,
+          datasets: data[year].datasets
+        }}
+        options={{
+          responsive: true,
+          indexAxis: 'y', // Flip the axes to make horizontal stacked bars
+          plugins: {
+            legend: {
+              position: 'top'
+            },
+            title: {
+              display: true,
+              text: `Stacked Bar Chart - US States (${year})`
+            }
+          },
+          scales: {
+            x: {
+              stacked: true // Stacking on the x-axis
+            },
+            y: {
+              stacked: true // Stacking on the y-axis
+            }
+          }
+        }}
+      />
+    </div>
+  );
+};
+
+export default StackedColumnChart;
+```
+
+### Explanation of Changes
+
+- **`data`**: Contains sample data for two years (`2022` and `2023`), with labels representing the two-letter codes of the 50 US states.
+- **`year` state variable**: Manages the selected year in the dropdown.
+- **`handleYearChange`**: Updates the `year` state based on the selected option in the dropdown.
+- **`Bar` component**: Displays a horizontal stacked bar chart (`indexAxis: 'y'`) with options configured for stacking on both axes (`scales.x.stacked` and `scales.y.stacked`).
+
+### Summary
+
+This updated `StackedColumnChart` component displays a horizontal stacked bar chart for 50 US states, with the ability to filter data by year using a dropdown selector. Replace the sample data with your actual data for accurate visualization of stacked data across different categories and years. Adjust styling and further configurations as per your application's requirements.
+
+
 // src/StackedColumnChart.js
 
 import React, { useState } from 'react';
