@@ -1,0 +1,54 @@
+import React from 'react';
+import { Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, DoughnutController, Title, Tooltip, Legend, ArcElement } from 'chart.js';
+
+ChartJS.register(CategoryScale, LinearScale, DoughnutController, Title, Tooltip, Legend, ArcElement);
+
+const P2 = () => {
+  const data = {
+    labels: ['Dark Brown', 'Medium Brown', 'Light Brown', 'Very Light Brown', 'Off White'],
+    datasets: [
+      {
+        label: 'Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        backgroundColor: [
+          'rgba(148, 110, 58, 0.2)',  // Dark Brown background
+          'rgba(175, 146, 104, 0.2)', // Medium Brown background
+          'rgba(196, 175, 147, 0.2)', // Light Brown background
+          'rgba(218, 204, 186, 0.2)', // Very Light Brown background
+          'rgba(239, 233, 225, 0.2)', // Off White background
+        ],
+        borderColor: [
+          '#946e3a', // Dark Brown border
+          '#af9268', // Medium Brown border
+          '#c4af93', // Light Brown border
+          '#daccba', // Very Light Brown border
+          '#efe9e1', // Off White border
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const options = {
+    responsive: true,
+    maintainAspectRatio: false, // Ensure chart takes the full space
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Votes Distribution',
+      },
+    },
+  };
+
+  return (
+    <div style={{ width: '100%', height: '100%' }}>
+      <Doughnut data={data} options={options} />
+    </div>
+  );
+};
+
+export default P2;
