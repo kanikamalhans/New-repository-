@@ -1,0 +1,162 @@
+To make the dashboard span the entire width of the screen without scrolling, you can use the following adjustments:
+
+1. **Remove the width constraints**: Allow the components to take up the full width of the viewport.
+2. **Adjust flex properties**: Ensure that the components are flexing properly to use all available space.
+
+We'll modify the `Dashboard.js` to include the updated structure and make corresponding changes in the CSS to ensure the components span the entire screen width.
+
+### Updated Code
+
+#### 1. **Update the `Dashboard.js`**:
+
+Ensure the components are structured correctly to take the full width.
+
+```jsx
+// src/Dashboard.js
+
+import React from 'react';
+import SearchBox from './SearchBox'; // Assuming you have this component
+import './Dashboard.css'; // Add the CSS
+
+const Dashboard = () => {
+  return (
+    <div className="dashboard-container">
+      {/* Top Section */}
+      <div className="top-section">
+        <SearchBox />
+        <select className="dropdown">
+          <option value="option1">Option 1</option>
+          <option value="option2">Option 2</option>
+          <option value="option3">Option 3</option>
+        </select>
+        <button className="panel-button">Open Panel</button>
+      </div>
+      
+      {/* Main Layout */}
+      <div className="main-layout">
+        <div className="big-box">
+          {/* Put your large component here */}
+          <h2>Big Component</h2>
+        </div>
+        <div className="right-section">
+          <div className="advisor-details">
+            {/* Advisor details here */}
+            <h3>Advisor Details</h3>
+          </div>
+          <div className="bottom-boxes">
+            <div className="bottom-box">Bottom Component 1</div>
+            <div className="bottom-box">Bottom Component 2</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
+```
+
+#### 2. **Update the CSS (`Dashboard.css`)**:
+
+Modify the CSS to ensure the layout takes up the full width and height of the viewport without adding extra space on the sides.
+
+```css
+/* src/Dashboard.css */
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Align stretch to take full width */
+  padding: 20px;
+  box-sizing: border-box;
+  height: 100vh;
+  width: 100vw; /* Ensure full width usage */
+  overflow: hidden;
+}
+
+.top-section {
+  display: flex;
+  justify-content: flex-start; /* Align items to the start */
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.top-section > * {
+  margin-right: 20px; /* Space between elements */
+}
+
+.panel-button {
+  margin-left: auto; /* Move the button to the far right */
+}
+
+.main-layout {
+  display: flex;
+  flex: 1;
+  width: 100%;
+}
+
+.big-box {
+  flex: 0 0 60%;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f0f0f0;
+  height: 100%;
+}
+
+.right-section {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.advisor-details {
+  flex: 0 0 auto;
+  background-color: #e0e0e0;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+
+.bottom-boxes {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bottom-box {
+  background-color: #d0d0d0;
+  padding: 10px;
+  flex: 1;
+  margin-bottom: 20px;
+  height: calc(50% - 10px); /* Adjust height to split space equally */
+}
+
+.bottom-box:last-child {
+  margin-bottom: 0;
+}
+
+.dropdown {
+  margin-left: 10px;
+  padding: 5px;
+}
+```
+
+### Key Adjustments
+
+1. **Full Width Usage**:
+   - `width: 100vw;` in `.dashboard-container` ensures the container spans the entire viewport width.
+   - `align-items: stretch;` in `.dashboard-container` and `width: 100%;` in child elements remove constraints that could add extra space on the sides.
+
+2. **Flex Properties**:
+   - Use `flex: 1;` in `.main-layout` to allow it to grow and take all available space.
+   - Ensure `.big-box` and `.right-section` flex properly to take their respective portions of the available width.
+
+3. **Top Section Alignment**:
+   - `justify-content: flex-start;` in `.top-section` aligns the search box, dropdown, and button to the left, while `margin-left: auto;` on `.panel-button` moves the button to the far right.
+
+### Summary
+
+With these updates, the dashboard should now span the full width of the viewport, eliminating any empty space on the sides while maintaining a responsive layout. This setup ensures all elements are positioned correctly and no scroll bars are introduced.
