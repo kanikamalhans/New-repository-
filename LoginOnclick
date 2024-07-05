@@ -1,0 +1,76 @@
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+const Login = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Hook to navigate to another route
+
+  const handleLogin = () => {
+    // Perform your login validation here
+
+    // If login is successful, navigate to the analytics page
+    navigate('/analytics'); // Replace '/analytics' with the path to your analytics page
+  };
+
+  return (
+    <div style={styles.container}>
+      <h1 style={styles.title}>Login</h1>
+      <div style={styles.inputGroup}>
+        <input
+          style={styles.input}
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          style={styles.input}
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      </div>
+      <button style={styles.button} onClick={handleLogin}>
+        Login
+      </button>
+    </div>
+  );
+};
+
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '100vh',
+  },
+  title: {
+    fontSize: '2rem',
+    marginBottom: '1rem',
+  },
+  inputGroup: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '1rem',
+  },
+  input: {
+    marginBottom: '0.5rem',
+    padding: '0.5rem',
+    fontSize: '1rem',
+    width: '200px',
+  },
+  button: {
+    padding: '0.5rem 1rem',
+    fontSize: '1rem',
+    backgroundColor: '#946e3a', // Hex color from your provided palette
+    color: '#fff',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+  },
+};
+
+export default Login;
