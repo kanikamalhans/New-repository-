@@ -1,0 +1,102 @@
+To flip the axes of the stacked column chart so that the bars are stacked along the y-axis (effectively creating a horizontal stacked bar chart), we need to update the `options` in the Chart.js configuration. This can be done by switching the axes' `indexAxis` property to `'y'`.
+
+Here’s how you can modify the `StackedColumnChart` component to achieve this:
+
+### Updated `StackedColumnChart.js`
+
+```jsx
+// src/StackedColumnChart.js
+
+import React, { useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
+
+const StackedColumnChart = () => {
+  // Sample data for the chart
+  const data = {
+    2022: {
+      labels: ['January', 'February', 'March', 'April'],
+      datasets: [
+        {
+          label: 'Category A',
+          data: [30, 20, 50, 40],
+          backgroundColor: '#ff6384'
+        },
+        {
+          label: 'Category B',
+          data: [20, 30, 10, 50],
+          backgroundColor: '#36a2eb'
+        }
+      ]
+    },
+    2023: {
+      labels: ['January', 'February', 'March', 'April'],
+      datasets: [
+        {
+          label: 'Category A',
+          data: [40, 30, 20, 60],
+          backgroundColor: '#ff6384'
+        },
+        {
+          label: 'Category B',
+          data: [10, 50, 30, 20],
+          backgroundColor: '#36a2eb'
+        }
+      ]
+    }
+  };
+
+  const [year, setYear] = useState('2022');
+
+  const handleYearChange = (event) => {
+    setYear(event.target.value);
+  };
+
+  return (
+    <div>
+      <div style={{ marginBottom: '20px' }}>
+        <label>Select Year: </label>
+        <select value={year} onChange={handleYearChange}>
+          <option value="2022">2022</option>
+          <option value="2023">2023</option>
+        </select>
+      </div>
+      <Bar
+        data={data[year]}
+        options={{
+          responsive: true,
+          indexAxis: 'y', // Flip the axes to make horizontal stacked bars
+          plugins: {
+            legend: {
+              position: 'top'
+            },
+            title: {
+              display: true,
+              text: `Stacked Bar Chart - ${year}`
+            }
+          },
+          scales: {
+            x: {
+              stacked: true // Stacking on the x-axis
+            },
+            y: {
+              stacked: true // Stacking on the y-axis
+            }
+          }
+        }}
+      />
+    </div>
+  );
+};
+
+export default StackedColumnChart;
+```
+
+### Explanation of Changes
+
+- **`indexAxis: 'y'`**: This property flips the axes, turning the chart into a horizontal stacked bar chart.
+- **`scales.x.stacked: true`** and **`scales.y.stacked: true`**: These ensure that the bars are stacked on both axes.
+
+### Summary
+
+By setting the `indexAxis` to `'y'`, you switch the chart from vertical to horizontal orientation. Now, the bars will be stacked along the y-axis, effectively creating a horizontal stacked bar chart.
