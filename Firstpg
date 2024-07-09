@@ -1,0 +1,66 @@
+Here's a CSS layout for your React app's dashboard page that matches your requirements:
+
+```html
+<div class="dashboard">
+  <div class="left-section">
+    <!-- Component for left section -->
+  </div>
+  <div class="middle-section">
+    <div class="middle-upper">
+      <!-- Upper middle component -->
+    </div>
+    <div class="middle-lower">
+      <!-- Lower middle component -->
+    </div>
+  </div>
+  <div class="right-section">
+    <div class="right-upper">
+      <!-- Upper right component -->
+    </div>
+    <div class="right-lower">
+      <!-- Lower right component -->
+    </div>
+  </div>
+</div>
+```
+
+```css
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.left-section {
+  width: 30%;
+  background-color: #f0f0f0; /* Example color, change as needed */
+}
+
+.middle-section {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+}
+
+.middle-upper,
+.middle-lower {
+  flex: 1;
+  background-color: #e0e0e0; /* Example color, change as needed */
+}
+
+.right-section {
+  width: 30%;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-upper,
+.right-lower {
+  flex: 1;
+  background-color: #d0d0d0; /* Example color, change as needed */
+}
+```
+
+This layout divides the page into three main sections:
+1. **Left Section**: Takes up 30% of the page width.
+2. **Middle Section**: Takes up 40% of the page width and contains two stacked sections.
+3. **Right Section**: Takes up 30% of the page width and contains two stacked sections.
